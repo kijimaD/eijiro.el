@@ -119,7 +119,7 @@
           c))
 
 (defun eijiro-dictionaries-by-query ()
-  (if (string-match "^^\\.\\.[a-zA-Z0-9]+" anything-pattern)
+  (if (string-match "[a-zA-Z0-9]+" anything-pattern)
       (eijiro-dictionaries eijiro-directory 'eiwa)
     (eijiro-dictionaries eijiro-directory 'waei)))
 
@@ -127,7 +127,7 @@
   (case type
     ('eiwa
      (delq nil
-           (append (directory-files dir t "eiji_utf8.*.txt")
+           (append (directory-files dir t "eiji.*.txt")
                    (directory-files dir t "otoji.*.txt")
                    (directory-files dir t "reiji.*.txt")
                    (directory-files dir t "ryaku.*.txt"))))
@@ -137,9 +137,10 @@
 
 (defun anything-c-eijiro-candidates ()
   (let* ((anything-pattern
-          (concat "^.." (encode-coding-string anything-pattern 'sjis)))
+          (encode-coding-string anything-pattern 'sjis)
+		  )
          (proc (agp-candidates)))
-    (set-process-coding-system proc 'sjis-dos 'utf-8)
+    ;; (set-process-coding-system proc 'sjis-dos 'utf-8)
     proc))
 
 (defun eijiro (query)
