@@ -114,8 +114,10 @@
             (replace-regexp-in-string
              "【" "\n  【"
              (replace-regexp-in-string
-			 "\t・" "\n    ・"
-			 (decode-coding-string line 'sjis-dos))))
+			  "\t・" "\n    ・"
+			  (replace-regexp-in-string
+			   "\r" "" ;; windows: \r\n, linux: \n => no need \r in linux
+			 (decode-coding-string line 'sjis-dos)))))
           c))
 
 (defun eijiro-dictionaries-by-query ()
@@ -163,3 +165,7 @@
 ;; How to save (DO NOT REMOVE!!)
 ;; (emacswiki-post "eijiro.el")
 ;;; eijiro.el ends here
+
+;; 完全マッチしたら優先的に表示したい
+;; 選択していたらその文字を検索に入れたい
+;; 検索文字を入れず、カーソルが合ったら自動検索するモードを追加したい。何もせず2、3秒したら検索とかでいいんでない。
